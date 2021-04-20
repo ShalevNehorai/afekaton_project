@@ -1,6 +1,12 @@
+import 'package:afekaton_project/class_room.dart';
+import 'package:afekaton_project/models/user.dart';
+import 'package:afekaton_project/services/database.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -21,6 +27,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+
   TextEditingController tecName = new TextEditingController();
 
   @override
@@ -33,13 +41,26 @@ class MyHomePage extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.all(20),
-            child: TextField(
-              decoration: new InputDecoration(
-                labelText: "Enter Name",
-                fillColor: Colors.green,
-                border: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  borderSide: new BorderSide(),
+            child: Form(
+              key: _formKey,
+              child: TextFormField(
+                controller: tecName,
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return "Please enter your name";
+                  }
+                  if (!RegExp(r"^[A-Za-zא-ת0-9 ]").hasMatch(text)) {
+                    return "Name has to be letters or numbers only";
+                  }
+                  return null;
+                },
+                decoration: new InputDecoration(
+                  labelText: "Enter Name",
+                  fillColor: Colors.white,
+                  border: new OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: new BorderSide(),
+                  ),
                 ),
               ),
             ),
@@ -49,7 +70,19 @@ class MyHomePage extends StatelessWidget {
             height: 50,
             width: 200,
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    //TODO send login data to firebase
+                    DataBaseMethods()
+                        .uplodeUserInfo(User(tecName.text))
+                        .then((value) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ClassRoom(value)));
+                    });
+                  }
+                },
                 child: Padding(
                     padding: EdgeInsets.all(0),
                     child: Container(

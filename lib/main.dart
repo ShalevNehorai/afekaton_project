@@ -72,7 +72,6 @@ class MyHomePage extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    //TODO send login data to firebase
                     DataBaseMethods()
                         .uplodeUserInfo(User(tecName.text))
                         .then((value) {

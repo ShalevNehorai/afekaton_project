@@ -3,10 +3,12 @@ import 'package:afekaton_project/models/user.dart';
 import 'package:afekaton_project/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SystemChrome.setEnabledSystemUIOverlays([/*SystemUiOverlay.bottom*/]);
   runApp(MyApp());
 }
 
@@ -16,11 +18,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        brightness: Brightness.dark,
-        accentColor: Colors.blue,
-        // backgroundColor: Colors.blue[600],
-        primarySwatch: Colors.blue,
-      ),
+          // brightness: Brightness.dark,
+          accentColor: Colors.blue,
+          // backgroundColor: Colors.blue[600],
+          primarySwatch: Colors.cyan),
       home: MyHomePage(),
     );
   }
@@ -34,7 +35,11 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+        body: Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("images/theme2.jpeg"), fit: BoxFit.cover)),
+      child: Column(
         children: [
           SizedBox(
             height: 100,
@@ -55,7 +60,9 @@ class MyHomePage extends StatelessWidget {
                   return null;
                 },
                 decoration: new InputDecoration(
-                  labelText: "Enter Name",
+                  // labelText: "Enter Name",
+                  hintText: "Enter Name",
+                  filled: true,
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
                     borderRadius: new BorderRadius.circular(25.0),
@@ -106,6 +113,6 @@ class MyHomePage extends StatelessWidget {
           )
         ],
       ),
-    );
+    ));
   }
 }

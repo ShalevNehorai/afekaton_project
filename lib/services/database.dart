@@ -8,4 +8,10 @@ class DataBaseMethods {
   Future<DocumentReference> uplodeUserInfo(User user) async {
     return await users.add(user.getUserMap());
   }
+  //upp one
+  raiseHand(DocumentReference c) async{
+    // await c.set()
+  }
+  //lower one
+  //persentage
 }

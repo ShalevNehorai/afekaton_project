@@ -3,7 +3,7 @@ class User {
 
   User(this.name);
 
-  Map<String, dynamic> getUserMap() {
+  Map<String, dynamic> toMap() {
     Map<String, dynamic> info = {
       "name": name,
     };

@@ -1,6 +1,6 @@
 {
-    "name": "afekaton_project",
-    "short_name": "afekaton_project",
+    "name": "multi_class",
+    "short_name": "multi_class",
     "start_url": ".",
     "display": "fullscreen",
     "background_color": "#0175C2",

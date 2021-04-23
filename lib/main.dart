@@ -1,6 +1,8 @@
 import 'package:afekaton_project/class_room.dart';
+import 'package:afekaton_project/models/massage.dart';
 import 'package:afekaton_project/models/user.dart';
 import 'package:afekaton_project/services/database.dart';
+import 'package:afekaton_project/teacher_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +10,7 @@ import 'package:flutter/services.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SystemChrome.setEnabledSystemUIOverlays([/*SystemUiOverlay.bottom*/]);
+  SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyApp());
 }
 
@@ -16,11 +18,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Multi Class',
       theme: ThemeData(
           // brightness: Brightness.dark,
           accentColor: Colors.blue,
-          // backgroundColor: Colors.blue[600],
           primarySwatch: Colors.cyan),
       home: MyHomePage(),
     );
@@ -79,14 +80,23 @@ class MyHomePage extends StatelessWidget {
             child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
-                    DataBaseMethods()
-                        .uplodeUserInfo(User(tecName.text))
-                        .then((value) {
+                    String name = tecName.text;
+                    if (name == "מרצה") {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ClassRoom(value)));
-                    });
+                              builder: (context) => TeacherScreen()));
+                    } else {
+                      DataBaseMethods()
+                          .uplodeUserInfo(User(tecName.text))
+                          .then((value) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ClassRoom(value)));
+                        // builder: (context) => TeacherScreen()));
+                      });
+                    }
                   }
                 },
                 child: Padding(
